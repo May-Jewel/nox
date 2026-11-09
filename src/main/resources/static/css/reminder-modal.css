@@ -1,0 +1,530 @@
+/* ==========================================================================
+   reminder-modal.css - Sidebar Reminders card for NOX.
+   Matches the NOX palette: bg #EFF8FF, accent #20A8C4, primary #082F49.
+   ========================================================================== */
+
+/* ---- Sidebar bell button (next to the user's name/email) ---- */
+.reminder-bell {
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: 1.5px solid #DCEBF2;
+  color: #082F49;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(8, 47, 73, 0.08);
+  transition: all 0.2s ease;
+}
+
+.reminder-bell:hover {
+  background: rgba(32, 168, 196, 0.12);
+  border-color: #20A8C4;
+  color: #082F49;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(32, 168, 196, 0.25);
+}
+
+.reminder-bell i {
+  pointer-events: none;
+}
+
+.app-shell.sidebar-collapsed .reminder-bell {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Overlay + card                                                      */
+/* ------------------------------------------------------------------ */
+.reminder-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(8, 47, 73, 0.45);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.reminder-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.reminder-modal {
+  width: min(520px, 100%);
+  max-height: min(640px, 88vh);
+  overflow-y: auto;
+  background: #FFFFFF;
+  border: 1px solid #DCEBF2;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(8, 47, 73, 0.25);
+  padding: 1.5rem 1.5rem 1.75rem;
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.25s ease;
+}
+
+.reminder-overlay.open .reminder-modal {
+  transform: translateY(0) scale(1);
+}
+
+/* ---- Header ---- */
+.reminder-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.reminder-modal-eyebrow {
+  margin: 0 0 0.25rem 0;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: #6B7C85;
+}
+
+.reminder-modal-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #263238;
+}
+
+.reminder-modal-close {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: #F1F7FB;
+  color: #6B7C85;
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.reminder-modal-close:hover {
+  background: #FBE9E7;
+  color: #d93838;
+  border-color: rgba(217, 56, 56, 0.35);
+  transform: none;
+  box-shadow: none;
+}
+
+/* ---- Status ---- */
+.reminder-status {
+  margin: 0 0 1rem 0;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-height: 1.2em;
+  color: #6B7C85;
+}
+
+/* ---- Empty / list ---- */
+.reminder-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.reminder-empty {
+  display: block;
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #6B7C85;
+  font-size: 0.9rem;
+  border: 1px dashed #DCEBF2;
+  border-radius: 14px;
+}
+
+.reminder-empty i {
+  display: block;
+  font-size: 1.8rem;
+  margin-bottom: 0.6rem;
+  color: #20A8C4;
+}
+
+.reminder-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 0.95rem;
+  background: #FFFFFF;
+  border: 1px solid #DCEBF2;
+  border-radius: 14px;
+  transition: all 0.2s ease;
+}
+
+.reminder-item:hover {
+  background: #EFF8FF;
+  border-color: #20A8C4;
+}
+
+.reminder-item-icon {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: var(--accent-gradient, linear-gradient(135deg, #082F49 0%, #20A8C4 100%));
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.reminder-item-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.reminder-item-text {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #263238;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reminder-item-meta {
+  margin: 2px 0 0 0;
+  font-size: 0.78rem;
+  color: #6B7C85;
+}
+
+.reminder-item-time {
+  font-weight: 700;
+  color: #20A8C4;
+}
+
+.reminder-item-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.25rem;
+}
+
+.reminder-item-actions button {
+  width: auto;
+  padding: 0.4rem 0.6rem;
+  border-radius: 9px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #6B7C85;
+  box-shadow: none;
+  font-size: 0.85rem;
+}
+
+.reminder-item-actions button:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.reminder-edit-btn:hover {
+  background: rgba(32, 168, 196, 0.12);
+  color: #082F49;
+  border-color: #20A8C4;
+}
+
+.reminder-delete-btn:hover {
+  background: rgba(217, 56, 56, 0.1);
+  color: #d93838;
+  border-color: rgba(217, 56, 56, 0.35);
+}
+
+/* ---- Buttons ---- */
+.reminder-enable-btn {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: 1.5px solid #20A8C4;
+  color: #082F49;
+  font-weight: 600;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.reminder-enable-btn:hover {
+  background: rgba(32, 168, 196, 0.1);
+  border-color: #20A8C4;
+  transform: translateY(-1px);
+  box-shadow: none;
+}
+
+.reminder-new-btn {
+  width: 100%;
+}
+
+/* ---- Form ---- */
+.reminder-form-group {
+  margin-bottom: 1.1rem;
+  text-align: left;
+}
+
+.reminder-form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #263238;
+}
+
+.reminder-form-group input,
+.reminder-form-group select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid #DCEBF2;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #263238;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.reminder-form-group input:focus,
+.reminder-form-group select:focus {
+  border-color: #20A8C4;
+  box-shadow: 0 0 0 3px rgba(32, 168, 196, 0.2);
+}
+
+.reminder-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* ---- Form actions ---- */
+.reminder-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.reminder-cancel-btn {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: 1.5px solid #DCEBF2;
+  color: #6B7C85;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.reminder-cancel-btn:hover {
+  background: #EFF8FF;
+  border-color: #20A8C4;
+  color: #082F49;
+  transform: none;
+  box-shadow: none;
+}
+
+.reminder-save-btn {
+  flex: 1;
+}
+
+@media (max-width: 480px) {
+  .reminder-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================================================================== */
+/*  Badge – pending reminder count on .reminder-bell                   */
+/* ================================================================== */
+.reminder-bell {
+  position: relative; /* ensure badge is positioned against the button */
+}
+
+.reminder-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #d93838;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 2px solid #fff;
+  pointer-events: none;
+  box-shadow: 0 1px 4px rgba(217, 56, 56, 0.45);
+  z-index: 1;
+}
+
+/* ================================================================== */
+/*  Default Settings – collapsible section inside the list panel      */
+/* ================================================================== */
+.reminder-defaults-section {
+  margin-bottom: 1rem;
+  border: 1px solid #DCEBF2;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.reminder-defaults-toggle {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: #F8FCFF;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #263238;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.reminder-defaults-toggle:hover {
+  background: rgba(32, 168, 196, 0.08);
+}
+
+.reminder-defaults-toggle .reminder-defaults-arrow {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: #6B7C85;
+  transition: transform 0.22s ease;
+}
+
+.reminder-defaults-toggle[aria-expanded="true"] .reminder-defaults-arrow {
+  transform: rotate(180deg);
+}
+
+.reminder-defaults-body {
+  padding: 0.85rem 1rem 1rem;
+  background: #FFFFFF;
+  border-top: 1px solid #DCEBF2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.reminder-save-defaults-btn {
+  align-self: flex-end;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+}
+
+/* ================================================================== */
+/*  Per-task reminder bell button (in the To-Do list)                  */
+/* ================================================================== */
+.todo-reminder-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #FFFFFF;
+  border: 1.5px solid #DCEBF2;
+  color: #6B7C85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.todo-reminder-btn:hover {
+  background: rgba(32, 168, 196, 0.12);
+  border-color: #20A8C4;
+  color: #082F49;
+}
+
+.todo-reminder-btn.has-reminder {
+  color: #20A8C4;
+  border-color: #20A8C4;
+  background: rgba(32, 168, 196, 0.08);
+}
+
+/* ================================================================== */
+/*  Profile page – Reminder Defaults card                              */
+/* ================================================================== */
+.reminder-defaults-card {
+  background: var(--card-bg, #FFFFFF);
+  border: 1px solid var(--card-border, #DCEBF2);
+  border-radius: 20px;
+  padding: 1.5rem 2rem 2rem;
+  margin-top: 1.5rem;
+}
+
+.reminder-defaults-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.reminder-defaults-card-header i {
+  color: #20A8C4;
+  font-size: 1rem;
+}
+
+.reminder-defaults-card-header h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #263238;
+}
+
+.reminder-defaults-hint {
+  font-size: 0.82rem;
+  color: #6B7C85;
+  margin: 0 0 1rem 0;
+}
+
+.profile-defaults-status {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #6B7C85;
+  min-height: 1.2em;
+  margin: 0;
+}
